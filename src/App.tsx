@@ -5,6 +5,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import NewNote from './NewNote'
 import useLocalStorage from './useLocalStorage'
 import { v4 as uuidV4 } from 'uuid'
+import NoteList from './NoteList'
 
 export type Note = {
   id: string
@@ -60,7 +61,7 @@ const App = () => {
   return (
     <Container className="my-4">
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/" element={<NoteList />} />
         <Route path="/new" element={<h1>New</h1>} />
         <Route path="/:id">
           <Route index element={<h1>Show</h1>} />
