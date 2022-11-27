@@ -15,6 +15,7 @@ export class NoteList extends Component {
               <Link to="/new">
                 <Button variant="primary">Create</Button>
               </Link>
+              <Button variant="outline-secondary">Edit Tags</Button>
             </Stack>
           </Col>
         </Row>
