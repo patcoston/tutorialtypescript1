@@ -2,12 +2,13 @@ import { useMemo } from 'react'
 import { Container } from 'react-bootstrap'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
-import NewNote from './NewNote'
 import useLocalStorage from './useLocalStorage'
 import { v4 as uuidV4 } from 'uuid'
 import NoteList from './NoteList'
 import NoteLayout from './NoteLayout'
 import Note from './Note'
+import NewNote from './NewNote'
+import EditNote from './EditNote'
 
 export type Note = {
   id: string
@@ -47,6 +48,22 @@ const App = () => {
     })
   }
 
+  const onUpdateNote = (id: string, { tags, ...data }: NoteData) => {
+    setNotes(prevNotes => {
+      return prevNotes.map(note => {
+        if (note.id === id) {
+          return {
+            ...note,
+            ...data,
+            tagIds: tags.map(tag => tag.id),
+          }
+        } else {
+          return note
+        }
+      })
+    })
+  }
+
   const addTag = (tag: Tag) => {
     setTags(prev => [...prev, tag])
   }
@@ -79,7 +96,17 @@ const App = () => {
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
           <Route index element={<Note />} />
-          <Route index path="edit" element={<h1>Edit</h1>} />
+          <Route
+            index
+            path="edit"
+            element={
+              <EditNote
+                onSubmit={onUpdateNote}
+                onAddTag={addTag}
+                availableTags={tags}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
