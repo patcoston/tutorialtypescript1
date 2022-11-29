@@ -1,12 +1,12 @@
 import React from 'react'
-import { Navigate, Outlet, useParams } from 'react-router-dom'
+import { Navigate, Outlet, useOutletContext, useParams } from 'react-router-dom'
 import { Note } from './App'
 
 interface NoteLayoutProps {
   notes: Note[]
 }
 
-function NoteLayout({ notes }: NoteLayoutProps) {
+const NoteLayout = ({ notes }: NoteLayoutProps) => {
   const { id } = useParams()
   const note = notes.find(n => n.id === id)
   console.log(note)
@@ -14,4 +14,9 @@ function NoteLayout({ notes }: NoteLayoutProps) {
   return <Outlet context={note} />
 }
 
+const useNote = () => {
+  return useOutletContext<Note>()
+}
+
 export default NoteLayout
+export { useNote }
