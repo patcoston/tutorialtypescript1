@@ -74,6 +74,24 @@ const App = () => {
     setTags(prev => [...prev, tag])
   }
 
+  const updateTag = (id: string, label: string) => {
+    setTags(prevTags => {
+      return prevTags.map(tag => {
+        if (tag.id === id) {
+          return { ...tag, label }
+        } else {
+          return tag
+        }
+      })
+    })
+  }
+
+  const deleteTag = (id: string) => {
+    setTags(prevTags => {
+      return prevTags.filter(tag => tag.id !== id)
+    })
+  }
+
   const notesWithTags = useMemo(() => {
     return notes.map(note => {
       return {
@@ -88,7 +106,14 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={<NoteList notes={notesWithTags} availableTags={tags} />}
+          element={
+            <NoteList
+              notes={notesWithTags}
+              availableTags={tags}
+              onUpdateTag={updateTag}
+              onDeleteTag={deleteTag}
+            />
+          }
         />
         <Route
           path="/new"
